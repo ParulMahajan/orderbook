@@ -13,26 +13,29 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		final OrderbookServiceImpl serv = 	new OrderbookServiceImpl();
+		
+		
+		// Adding sample code for Matching engine Testing
+		final OrderbookServiceImpl serv = new OrderbookServiceImpl();
 		serv.initializeOrderBook();
 
-		//				serv.placeNewOrder( new Order(OrderUtility.getOrderId(), new BigDecimal(4.5), new BigDecimal(1.9999999999), OrderSide.BUY, Ordertype.LIMIT));
-		//				serv.placeNewOrder( new Order(OrderUtility.getOrderId(), new BigDecimal(4.5), new BigDecimal(9.999999999999999), OrderSide.BUY, Ordertype.LIMIT));
-		//				serv.placeNewOrder( new Order(OrderUtility.getOrderId(), new BigDecimal(4.5), new BigDecimal(9.999999999999999), OrderSide.BUY, Ordertype.LIMIT));
-
+		final Order limitOrder =  new Order(OrderUtility.getOrderId(), new BigDecimal(6), new BigDecimal(9), OrderSide.BUY, Ordertype.LIMIT);
 		Executors.newSingleThreadExecutor().execute(new Runnable() {
 		    @Override 
 		    public void run() {
-		    	serv.placeNewOrder( new Order(OrderUtility.getOrderId(), new BigDecimal(6), new BigDecimal(5), OrderSide.BUY, Ordertype.LIMIT));
+		    	serv.placeNewOrder(limitOrder);
+		    	serv.cancelOrder(limitOrder);
 		    }
 		});
 		
 		Executors.newSingleThreadExecutor().execute(new Runnable() {
 		    @Override 
 		    public void run() {
-		    	serv.placeNewOrder( new Order(OrderUtility.getOrderId(), new BigDecimal(6), new BigDecimal(50), OrderSide.BUY, Ordertype.MARKET));
+		    	serv.placeNewOrder( new Order(OrderUtility.getOrderId(), null, new BigDecimal(5), OrderSide.BUY, Ordertype.MARKET));
 		    }
 		});
+		
+	
 		
 		
 	}

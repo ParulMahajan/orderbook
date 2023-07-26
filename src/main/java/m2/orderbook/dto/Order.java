@@ -21,9 +21,10 @@ public class Order {
 
 	public Order(String orderId, BigDecimal price, BigDecimal quantity, OrderSide side,Ordertype type) {
 
-		this.orderId = orderId;
-		this.side = side;
+		setOrderId(orderId);
+		setSide(side);
 		this.type = type;
+		if(type==Ordertype.LIMIT)
 		setPrice(price);
 		setQuantity(quantity);
 
@@ -58,6 +59,8 @@ public class Order {
         }
         return false;
     }
+	
+	 
 
 
 	public BigDecimal getPrice() {
@@ -65,13 +68,22 @@ public class Order {
 	}
 
 
-	private void setPrice(BigDecimal price) {
+	public void setPrice(BigDecimal price) {
 		if(isValidPrice(price)){
 			this.price = BigDecimalUtility.setScale(price) ;
 		} else {
 			throw new IllegalArgumentException("Invalid Order Price:" + price);
 		}
 	}
+
+	  public void setSide(OrderSide side) {
+	        if(isValidOrderSide(side)) {
+	            this.side = side;
+	        } else {
+	            throw new IllegalArgumentException("Invalid Order Side");
+	        }
+	    }
+
 
 	public OrderSide getSide() {
 		return side;
@@ -93,12 +105,32 @@ public class Order {
 		return price != null && price.compareTo(BigDecimal.ZERO) > 0;
 	}
 
-	private boolean isValidQuantity(BigDecimal quantity) {
+	public boolean isValidQuantity(BigDecimal quantity) {
 		return quantity != null && quantity.compareTo(BigDecimal.ZERO) >= 0;
 	}
 	 public boolean hasOrderQuantityLeft() {
 	        return quantity.compareTo(BigDecimal.ZERO) > 0;
 	    }
+	 
+	 private boolean isValidOrderSide(OrderSide side) {
+	        return side == OrderSide.BUY || side == OrderSide.SELL;
+	    }
+
+
+	public void setOrderId(String orderId) {
+		
+		if(isValidOrderId(orderId)){
+			this.orderId=orderId;
+		} else {
+			throw new IllegalArgumentException("Invalid Order Price:" + price);
+		}
+		
+	}
+
+
+	private boolean isValidOrderId(String orderId) {
+		  return orderId != null && !orderId.trim().equals("");
+	}
 	
 
 }

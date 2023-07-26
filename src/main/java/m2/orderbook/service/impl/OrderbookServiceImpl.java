@@ -14,6 +14,7 @@ import m2.orderbook.util.OrderUtility;
 public class OrderbookServiceImpl implements OrderbookService {
 
 	OrderBook orderBook;
+	
 	@Override
 	public void initializeOrderBook() {
 		
@@ -35,6 +36,13 @@ public class OrderbookServiceImpl implements OrderbookService {
 		orderBook.executeOrder(order, OrderActionType.ADD);
 		System.out.println(orderBook);
 
+	}
+	
+	@Override
+	public void cancelOrder(Order order) {
+		
+		orderBook.executeOrder(order, OrderActionType.REMOVE);
+		System.out.println(orderBook);	
 	}
 	
 	 

@@ -7,4 +7,6 @@ public interface OrderbookService {
 	void initializeOrderBook();
 	
 	void placeNewOrder(Order order);
+	
+	void cancelOrder(Order order);
 }
